@@ -1,0 +1,14 @@
+package com.example.social_network_project.services.Interface;
+
+import com.example.social_network_project.common.entities.FriendsModel;
+import com.example.social_network_project.common.entities.UserModel;
+import com.example.social_network_project.dtos.UserRequest;
+import org.apache.catalina.User;
+
+import java.util.List;
+
+public interface IFriendService {
+    void saveFriend(UserRequest userRequest, Long userId);
+    List<UserModel> getFriends();
+
+}

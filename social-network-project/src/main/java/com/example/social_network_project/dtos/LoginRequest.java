@@ -2,16 +2,16 @@ package com.example.social_network_project.dtos;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
+
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class UserRequest {
-    @NotNull
-    private String name;
+public class LoginRequest {
     @NotNull
     private String email;
     @NotNull
     private String password;
+
 }
