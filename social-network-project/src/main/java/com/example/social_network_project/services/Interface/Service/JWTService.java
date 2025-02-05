@@ -1,14 +1,16 @@
 package com.example.social_network_project.services.Interface.Service;
 
-import com.example.social_network_project.dtos.TokenResponse;
+import com.example.social_network_project.common.entities.dtos.TokenResponse;
 import com.example.social_network_project.services.Interface.IJWTService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
 
 import java.util.Date;
 
+@Service
 public class JWTService implements IJWTService {
 
     private final String secretToken;

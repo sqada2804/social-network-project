@@ -2,19 +2,17 @@ package com.example.social_network_project.services.Interface.Service;
 
 import com.example.social_network_project.common.entities.UserModel;
 import com.example.social_network_project.common.entities.UserToUserDetails;
-import com.example.social_network_project.dtos.LoginRequest;
-import com.example.social_network_project.dtos.TokenResponse;
-import com.example.social_network_project.dtos.UserRequest;
+import com.example.social_network_project.common.entities.dtos.LoginRequest;
+import com.example.social_network_project.common.entities.dtos.TokenResponse;
+import com.example.social_network_project.common.entities.dtos.UserRequest;
 import com.example.social_network_project.repository.IUserRepository;
 import com.example.social_network_project.services.Interface.IAuthService;
 import io.jsonwebtoken.Claims;
-import org.apache.catalina.User;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Objects;
 import java.util.Optional;
 
 @Service

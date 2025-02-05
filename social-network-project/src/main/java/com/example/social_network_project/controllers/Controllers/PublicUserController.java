@@ -3,11 +3,13 @@ package com.example.social_network_project.controllers.Controllers;
 import com.example.social_network_project.common.entities.UserModel;
 import com.example.social_network_project.controllers.Interfaces.IPublicUserController;
 import com.example.social_network_project.services.Interface.IUserService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-@Controller
+@RestController
 public class PublicUserController implements IPublicUserController {
 
     private final IUserService userService;
@@ -17,8 +19,8 @@ public class PublicUserController implements IPublicUserController {
     }
 
     @Override
-    public List<UserModel> getUsers() {
-        return userService.getAllUsers();
+    public ResponseEntity<List<UserModel>> getAllUsers() {
+        return ResponseEntity.ok(userService.getAllUsers());
     }
-
 }
+
