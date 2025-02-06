@@ -37,7 +37,7 @@ public class PostService implements IPostService {
     }
 
     @Override
-    public List<PostRequest> getPostOfUser(Long userId) {
+    public List<?> getPostOfUser(Long userId) {
         List<PostModel> postList = postRepository.findPostByUserOrderById(userRepository.findUserById(userId));
         List<PostRequest> postRequestList = new ArrayList<>();
         for(PostModel postModel:  postList){

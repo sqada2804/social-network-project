@@ -6,4 +6,5 @@ public class ApiPathConstants {
     public static final String PRIVATE_ROUTE = "/private";
     public static final String USER_ROUTE = "/users";
     public static final String FRIEND_ROUTE = "/friends";
+    public static final String POST_ROUTE = "/posts";
 }
