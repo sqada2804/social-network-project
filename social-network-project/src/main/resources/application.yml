@@ -13,8 +13,3 @@ spring:
         dialect: org.hibernate.dialect.MySQL9Dialect
 jwt:
   secret: orhgwejweogwoih32r899283r293r94goergnervnfpvmerjg90rjgerogn54094309tt4t934t34giermveiverv
-springdoc:
-  api-docs:
-    path: /v1/api-docs
-  swagger-ui:
-    path: /swagger-ui.html

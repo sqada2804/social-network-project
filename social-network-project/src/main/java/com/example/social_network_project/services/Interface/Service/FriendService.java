@@ -74,14 +74,6 @@ public class FriendService implements IFriendService {
                 .build();
     }
 
-    private UserModel mapToEntity(UserRequest userRequest){
-        return UserModel.builder()
-                .name(userRequest.getName())
-                .email(userRequest.getEmail())
-                .password(userRequest.getPassword())
-                .build();
-    }
-
     @Override
     public List<UserModel> getFriends() {
         UserRequest currentUserDTO = authService.getCurrentUser();
