@@ -8,11 +8,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 
-
-@NoArgsConstructor
-@AllArgsConstructor
 @Getter
 @Setter
+@NoArgsConstructor
+//@AllArgsConstructor
 @Builder
 @Entity
 @Table(name = "users")
@@ -27,9 +26,12 @@ public class UserModel implements UserDetails {
     private String role;
     private Collection<? extends GrantedAuthority> authorities;
 
-    public UserModel(String name, String password, Collection<? extends GrantedAuthority> authorities) {
+    public UserModel(Long userId, String name, String email, String password, String role, Collection<? extends GrantedAuthority> authorities) {
+        this.userId = userId;
         this.name = name;
+        this.email = email;
         this.password = password;
+        this.role = role;
         this.authorities = authorities;
     }
 
@@ -60,5 +62,45 @@ public class UserModel implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+    public void setAuthorities(Collection<? extends GrantedAuthority> authorities) {
+        this.authorities = authorities;
     }
 }
