@@ -1,6 +1,7 @@
 package com.example.social_network_project.common.entities;
 
 
+import com.example.social_network_project.enums.Roles;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
@@ -22,11 +23,12 @@ public class UserModel implements UserDetails {
     private String name;
     private String email;
     private String password;
+    @Getter
     @Enumerated(EnumType.STRING)
-    private String role;
+    private Roles role;
     private Collection<? extends GrantedAuthority> authorities;
 
-    public UserModel(Long userId, String name, String email, String password, String role, Collection<? extends GrantedAuthority> authorities) {
+    public UserModel(Long userId, String name, String email, String password, Roles role, Collection<? extends GrantedAuthority> authorities) {
         this.userId = userId;
         this.name = name;
         this.email = email;
@@ -92,11 +94,7 @@ public class UserModel implements UserDetails {
         this.password = password;
     }
 
-    public String getRole() {
-        return role;
-    }
-
-    public void setRole(String role) {
+    public void setRole(Roles role) {
         this.role = role;
     }
 

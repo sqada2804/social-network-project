@@ -5,6 +5,7 @@ import com.example.social_network_project.common.entities.UserToUserDetails;
 import com.example.social_network_project.common.entities.dtos.LoginRequest;
 import com.example.social_network_project.common.entities.dtos.TokenResponse;
 import com.example.social_network_project.common.entities.dtos.UserRequest;
+import com.example.social_network_project.enums.Roles;
 import com.example.social_network_project.repository.IUserRepository;
 import com.example.social_network_project.services.Interface.IAuthService;
 import io.jsonwebtoken.Claims;
@@ -57,7 +58,7 @@ public class AuthService implements IAuthService {
                 .email(userRequest.getEmail())
                 .password(passwordEncoder.encode(userRequest.getPassword()))
                 .name(userRequest.getName())
-                .role("USER")
+                .role(Roles.USER)
                 .build();
     }
 
@@ -91,7 +92,6 @@ public class AuthService implements IAuthService {
         Optional<UserModel> userOpt = Optional.ofNullable(userRepository.findByEmail(email))
                 .orElseThrow(() -> new RuntimeException("Error finding user by email"));
         UserModel user = userOpt.get();
-
         return UserRequest.builder()
                 .email(user.getEmail())
                 .name(user.getName())
