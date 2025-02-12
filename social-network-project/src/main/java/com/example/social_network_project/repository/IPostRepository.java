@@ -9,6 +9,5 @@ import java.util.List;
 
 @Repository
 public interface IPostRepository extends JpaRepository<PostModel, Long> {
-    List<PostModel> findPostByUserOrderById(UserModel userModel);
-    List<PostModel> findAllByOrderIdDesc();
+    List<PostModel> findPostByUserModel(UserModel userModel);
 }

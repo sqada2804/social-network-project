@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service
+
 public interface IPostService {
     public PostModel savePost(UserRequest userRequest, String content);
     public List<?> getPostOfUser(Long userId);

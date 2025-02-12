@@ -49,7 +49,8 @@ public class SecurityConfig {
         return authenticationProvider;
     }
 
-    private PasswordEncoder passwordEncoder() {
+    @Bean
+    public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 

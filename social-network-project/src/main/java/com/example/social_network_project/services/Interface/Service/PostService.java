@@ -8,11 +8,13 @@ import com.example.social_network_project.repository.IPostRepository;
 import com.example.social_network_project.repository.IUserRepository;
 import com.example.social_network_project.services.Interface.IAuthService;
 import com.example.social_network_project.services.Interface.IPostService;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+@Service
 public class PostService implements IPostService {
 
     private final IPostRepository postRepository;
@@ -38,7 +40,7 @@ public class PostService implements IPostService {
 
     @Override
     public List<?> getPostOfUser(Long userId) {
-        List<PostModel> postList = postRepository.findPostByUserOrderById(userRepository.findUserById(userId));
+        List<PostModel> postList = postRepository.findPostByUserModel(userRepository.findByUserId(userId));
         List<PostRequest> postRequestList = new ArrayList<>();
         for(PostModel postModel:  postList){
             postRequestList.add(mapToDTO(postModel));
@@ -48,7 +50,7 @@ public class PostService implements IPostService {
 
     @Override
     public List<PostModel> getAllPost() {
-        return postRepository.findAllByOrderIdDesc();
+        return postRepository.findAll();
     }
 
     private PostRequest mapToDTO(PostModel postRequest){

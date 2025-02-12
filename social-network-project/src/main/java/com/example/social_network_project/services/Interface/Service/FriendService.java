@@ -90,7 +90,7 @@ public class FriendService implements IFriendService {
     private void addFriends(List<FriendsModel> friends, List<UserModel> friendsUser, boolean isFirstUser){
         friends.forEach(friend -> {
             UserModel user = isFirstUser ? friend.getSecondUser() : friend.getFirstUser();
-            friendsUser.add(Optional.ofNullable(userRepository.findUserById(user.getUserId())).orElseThrow(() -> new RuntimeException("Error getting user By Id")));
+            friendsUser.add(Optional.ofNullable(userRepository.findByUserId(user.getUserId())).orElseThrow(() -> new RuntimeException("Error getting user By Id")));
         });
     }
 }

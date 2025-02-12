@@ -1,8 +1,6 @@
 package com.example.social_network_project.services.Interface.Service;
 
 import com.example.social_network_project.common.entities.UserModel;
-import com.example.social_network_project.common.entities.dtos.UpdateInfoRequest;
-import com.example.social_network_project.common.entities.dtos.UserRequest;
 import com.example.social_network_project.repository.IUserRepository;
 import com.example.social_network_project.services.Interface.IUserService;
 import org.springframework.stereotype.Service;
@@ -28,6 +26,6 @@ public class UserService implements IUserService {
 
     @Override
     public List<UserModel> getAllUsers() {
-        return userRepository.findAllUsers();
+        return userRepository.findAll();
     }
 }

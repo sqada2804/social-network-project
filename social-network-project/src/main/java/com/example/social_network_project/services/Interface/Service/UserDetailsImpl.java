@@ -13,15 +13,16 @@ public class UserDetailsImpl implements UserDetailsService {
 
     private final IUserRepository userRepository;
 
-    public UserDetailsImpl(IUserRepository userRepository, UserToUserDetails userDetails) {
+    public UserDetailsImpl(IUserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return userRepository.findUserByEmail(username)
+        UserModel user =  userRepository.findUserByEmail(username)
                 .map(UserToUserDetails::new)
                 .orElseThrow(() -> new RuntimeException("UserDetailsService user not found"));
+        return new UserToUserDetails(user);
     }
 
 }
