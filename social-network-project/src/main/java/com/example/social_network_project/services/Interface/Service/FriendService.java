@@ -44,7 +44,7 @@ public class FriendService implements IFriendService {
     private FriendsModel createFriend(UserRequest userDTO1, UserRequest userDTO2) {
         Optional<UserModel> firstUserOpt = Optional.ofNullable(userRepository.findByEmail(userDTO1.getEmail())
                 .orElseThrow(() -> new RuntimeException("Error finding first user")));
-        Optional<UserModel> secondUserOpt = Optional.ofNullable(userRepository.findUserByEmail(userDTO2.getEmail()))
+        Optional<UserModel> secondUserOpt = Optional.ofNullable(userRepository.findByEmail(userDTO2.getEmail()))
                 .orElseThrow(() -> new RuntimeException("Error finding second user"));
 
         FriendsModel friend = new FriendsModel();
@@ -77,7 +77,7 @@ public class FriendService implements IFriendService {
     @Override
     public List<UserModel> getFriends() {
         UserRequest currentUserDTO = authService.getCurrentUser();
-        Optional<UserModel> currentUserOpt = Optional.ofNullable(userRepository.findUserByEmail(currentUserDTO.getEmail()))
+        Optional<UserModel> currentUserOpt = Optional.ofNullable(userRepository.findByEmail(currentUserDTO.getEmail()))
                 .orElseThrow(() -> new RuntimeException("Error finding user by email"));
 
         UserModel currentUser = currentUserOpt.get();

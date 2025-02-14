@@ -3,6 +3,7 @@ package com.example.social_network_project.controllers.Interfaces;
 import com.example.social_network_project.common.entities.PostModel;
 import com.example.social_network_project.common.entities.constants.ApiPathConstants;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

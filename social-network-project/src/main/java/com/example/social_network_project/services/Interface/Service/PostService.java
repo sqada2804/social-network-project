@@ -31,7 +31,7 @@ public class PostService implements IPostService {
     @Override
     public PostModel savePost(UserRequest userRequest, String content) {
         PostModel postModel = new PostModel();
-        Optional<UserModel> userOpt = userRepository.findUserByEmail(userRequest.getEmail());
+        Optional<UserModel> userOpt = userRepository.findByEmail(userRequest.getEmail());
         UserModel userModel = userOpt.get();
         postModel.setUserModel(userModel);
         postModel.setContent(content);

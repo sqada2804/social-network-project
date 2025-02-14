@@ -10,6 +10,7 @@ import com.example.social_network_project.services.Interface.IPostService;
 import com.example.social_network_project.services.Interface.IUserService;
 import com.example.social_network_project.services.Interface.Service.AuthService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;

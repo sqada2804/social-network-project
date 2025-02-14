@@ -1,7 +1,5 @@
 package com.example.social_network_project.services.Interface.Service;
 
-import com.example.social_network_project.common.entities.UserModel;
-import com.example.social_network_project.common.entities.UserToUserDetails;
 import com.example.social_network_project.repository.IUserRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -19,10 +17,8 @@ public class UserDetailsImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        UserModel user =  userRepository.findUserByEmail(username)
-                .map(UserToUserDetails::new)
+        return userRepository.findByEmail(username)
                 .orElseThrow(() -> new RuntimeException("UserDetailsService user not found"));
-        return new UserToUserDetails(user);
     }
 
 }

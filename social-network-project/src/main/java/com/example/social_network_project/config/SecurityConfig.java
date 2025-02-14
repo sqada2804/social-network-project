@@ -30,8 +30,9 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception{
         httpSecurity.csrf(AbstractHttpConfigurer::disable)
                 .cors(Customizer.withDefaults())
-                .authorizeHttpRequests(request -> request.requestMatchers("/v1/**", "/swagger-ui/**", "/swagger-ui.html")
+                .authorizeHttpRequests(request -> request.requestMatchers("/v1/public/**", "/v1/users/**")
                         .permitAll()
+                        .requestMatchers("/v1/private/**").authenticated()
                         .anyRequest()
                         .authenticated())
                 .sessionManagement(manager -> manager.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

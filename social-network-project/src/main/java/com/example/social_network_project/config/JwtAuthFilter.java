@@ -29,20 +29,37 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        Optional.ofNullable(request.getHeader("Authentication"))
-                .filter(header -> !header.isBlank())
-                .map(header -> header.substring(7))
-                .map(jwtService::extractedUserId)
-                .flatMap(userId -> userRepository.findById(Long.valueOf(userId)))
-                .ifPresent(userDetails -> {
-                    request.setAttribute("X-User-Id", userDetails.getUserId());
-                    processAuthentication(request, userDetails);
-                });
+        try {
+            String authHeader = request.getHeader("Authorization");
+            if (authHeader != null && !authHeader.isBlank() && authHeader.startsWith("Bearer ")) {
+                String jwtToken = authHeader.substring(7);
+                logger.info("JWT Token received: " + jwtToken);
+
+                String userId = String.valueOf(jwtService.extractedUserId(jwtToken));
+                logger.info("User ID extracted from token: " + userId);
+
+                if (userId != null) {
+                    Optional<UserModel> userDetails = userRepository.findById(Long.valueOf(userId));
+                    if (userDetails.isPresent()) {
+                        logger.info("User details found: " + userDetails.get().getUsername());
+                        request.setAttribute("X-User-Id", userDetails.get().getUserId());
+                        processAuthentication(request, userDetails.get());
+                    } else {
+                        logger.warn("User not found in database for ID: " + userId);
+                    }
+                }
+            }
+        } catch (Exception e) {
+            logger.error("Error processing JWT token", e);
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Invalid or expired token");
+            return;
+        }
+
         filterChain.doFilter(request, response);
     }
 
     private void processAuthentication(HttpServletRequest request, UserModel userDetails) {
-        String jwtToken = request.getHeader("Authentication").substring(7);
+        String jwtToken = request.getHeader("Authorization").substring(7);
         Optional.of(jwtToken)
                 .filter(token -> !jwtService.isExpired(token))
                 .ifPresent(token -> {

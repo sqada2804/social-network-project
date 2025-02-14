@@ -40,7 +40,7 @@ public class JWTService implements IJWTService {
         return Jwts.parserBuilder()
                 .setSigningKey(this.secretToken)
                 .build()
-                .parseClaimsJwt(token)
+                .parseClaimsJws(token)
                 .getBody();
     }
 
