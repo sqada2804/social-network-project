@@ -2,6 +2,7 @@ package com.example.social_network_project.services.Interface.Service;
 
 import com.example.social_network_project.common.entities.FriendsModel;
 import com.example.social_network_project.common.entities.UserModel;
+import com.example.social_network_project.common.entities.dtos.FriendsData;
 import com.example.social_network_project.common.entities.dtos.UserRequest;
 import com.example.social_network_project.repository.FriendRepository;
 import com.example.social_network_project.repository.IUserRepository;
@@ -28,10 +29,10 @@ public class FriendService implements IFriendService {
 
 
     @Override
-    public void saveFriend(UserRequest userDTO1, Long userId) {
+    public void saveFriend(UserModel userDTO1, Long userId) {
         Optional<UserModel> userOpt = Optional.of(userRepository.getReferenceById(userId));
-        UserRequest userDTO2 = userOpt.map(this::mapToDTO)
-                .orElseThrow(() -> new RuntimeException("Error to saving the friend"));
+        UserModel userM = userOpt.get();
+        UserRequest userDTO2 = mapToDTO(userM);
 
         FriendsModel friendsModel = createFriend(userDTO1, userDTO2);
 
@@ -41,7 +42,7 @@ public class FriendService implements IFriendService {
         }
     }
 
-    private FriendsModel createFriend(UserRequest userDTO1, UserRequest userDTO2) {
+    private FriendsModel createFriend(UserModel userDTO1, UserRequest userDTO2) {
         Optional<UserModel> firstUserOpt = Optional.ofNullable(userRepository.findByEmail(userDTO1.getEmail())
                 .orElseThrow(() -> new RuntimeException("Error finding first user")));
         Optional<UserModel> secondUserOpt = Optional.ofNullable(userRepository.findByEmail(userDTO2.getEmail()))
@@ -75,16 +76,35 @@ public class FriendService implements IFriendService {
     }
 
     @Override
-    public List<UserModel> getFriends() {
-        UserRequest currentUserDTO = authService.getCurrentUser();
-        Optional<UserModel> currentUserOpt = Optional.ofNullable(userRepository.findByEmail(currentUserDTO.getEmail()))
-                .orElseThrow(() -> new RuntimeException("Error finding user by email"));
+    public List<?> getFriends(Long userId) {
+        UserModel currentUser = userRepository.findByUserId(userId);
 
-        UserModel currentUser = currentUserOpt.get();
-        List<UserModel> friendsUser = new ArrayList<>();
-        addFriends(friendRepository.findByFirstUser(currentUser), friendsUser, true);
-        addFriends(friendRepository.findBySecondUser(currentUser), friendsUser, false);
-        return friendsUser;
+        List<FriendsModel> firstFriend = friendRepository.findByFirstUser(currentUser);
+        List<FriendsModel> secondUser = friendRepository.findBySecondUser(currentUser);
+
+        List<FriendsModel> combinedList = new ArrayList<>();
+        combinedList.addAll(firstFriend);
+        combinedList.addAll(secondUser);
+
+        List<FriendsData> friendsData = new ArrayList<>();
+        for (FriendsModel friendsModel : combinedList){
+            friendsData.add(mapToDTO(friendsModel, currentUser));
+        }
+        return friendsData;
+    }
+
+    private FriendsData mapToDTO(FriendsModel friendsModel, UserModel currentUser){
+        UserModel friendsUser;
+        if(friendsModel.getFirstUser().getUserId().equals(currentUser.getUserId())){
+            friendsUser = friendsModel.getSecondUser();
+        } else {
+            friendsUser = friendsModel.getFirstUser();
+        }
+
+        return FriendsData.builder()
+                .userId(friendsUser.getUserId())
+                .name(friendsUser.getName())
+                .build();
     }
 
     private void addFriends(List<FriendsModel> friends, List<UserModel> friendsUser, boolean isFirstUser){

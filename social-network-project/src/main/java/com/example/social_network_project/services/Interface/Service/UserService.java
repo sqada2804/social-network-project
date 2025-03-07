@@ -2,8 +2,10 @@ package com.example.social_network_project.services.Interface.Service;
 
 import com.example.social_network_project.common.entities.UserModel;
 import com.example.social_network_project.common.entities.dtos.PublicUserData;
+import com.example.social_network_project.common.entities.dtos.UserData;
 import com.example.social_network_project.repository.IUserRepository;
 import com.example.social_network_project.services.Interface.IUserService;
+import org.apache.catalina.User;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,10 +22,16 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public UserModel getUser(String email) {
-        return Optional.of(email)
-                .flatMap(userRepository::findByEmail)
-                .orElseThrow(() -> new RuntimeException("Error finding the user by email"));
+    public UserData getUser(String email) {
+        Optional<UserModel> userOpt = userRepository.findByEmail(email);
+        UserModel user = userOpt.get();
+
+        UserData userData = new UserData();
+        userData.setUserId(user.getUserId());
+        userData.setName(user.getName());
+        userData.setEmail(user.getEmail());
+        userData.setRole(user.getRole());
+        return userData;
     }
 
     @Override

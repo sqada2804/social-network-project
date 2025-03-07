@@ -2,6 +2,7 @@ package com.example.social_network_project.controllers.Controllers;
 
 import com.example.social_network_project.common.entities.PostModel;
 import com.example.social_network_project.common.entities.UserModel;
+import com.example.social_network_project.common.entities.dtos.PostData;
 import com.example.social_network_project.common.entities.dtos.PostRequest;
 import com.example.social_network_project.common.entities.dtos.UserRequest;
 import com.example.social_network_project.controllers.Interfaces.IPostController;
@@ -30,15 +31,13 @@ public class PostController implements IPostController {
 
 
     @Override
-    public ResponseEntity<?> addPost(PostModel postModel) throws NullPointerException {
-        UserRequest user = authService.getCurrentUser();
-        PostModel savedPost = postService.savePost(user, postModel.getContent());
+    public ResponseEntity<?> addPost(PostModel postModel, @AuthenticationPrincipal UserModel user) throws NullPointerException {
+        PostData savedPost = postService.savePost(user, postModel.getContent());
         return ResponseEntity.ok(savedPost);
     }
 
     @Override
-    public ResponseEntity<?> myPosts() throws NullPointerException {
-        UserModel user = userService.getUser(authService.getCurrentUser().getEmail());
+    public ResponseEntity<?> myPosts(@AuthenticationPrincipal UserModel user) throws NullPointerException {
         List<?> postList = postService.getPostOfUser(user.getUserId());
         return ResponseEntity.ok(postList);
     }

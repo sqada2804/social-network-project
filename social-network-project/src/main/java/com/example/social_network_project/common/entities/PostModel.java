@@ -25,5 +25,5 @@ public class PostModel {
     private String content;
 
     @Column(name = "created_at", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
-    private Date createdAt;
+    private Date createdAt = new Date();
 }

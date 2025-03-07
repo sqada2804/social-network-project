@@ -1,6 +1,7 @@
 package com.example.social_network_project.controllers.Controllers;
 
 import com.example.social_network_project.common.entities.UserModel;
+import com.example.social_network_project.common.entities.dtos.UserData;
 import com.example.social_network_project.controllers.Interfaces.IPrivateUserController;
 import com.example.social_network_project.services.Interface.IUserService;
 import org.springframework.http.HttpStatus;
@@ -19,12 +20,12 @@ public class PrivateUserController implements IPrivateUserController {
     }
 
     @Override
-    public ResponseEntity<UserModel> getUser(@AuthenticationPrincipal UserModel userDetails) {
+    public ResponseEntity<UserData> getUser(@AuthenticationPrincipal UserModel userDetails) {
         if(userDetails == null){
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
         }
         String email = userDetails.getUsername();
-        UserModel user = userService.getUser(email);
+        UserData user = userService.getUser(email);
         return ResponseEntity.ok(user);
     }
 }

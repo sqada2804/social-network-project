@@ -2,8 +2,8 @@ package com.example.social_network_project.services.Interface.Service;
 
 import com.example.social_network_project.common.entities.PostModel;
 import com.example.social_network_project.common.entities.UserModel;
+import com.example.social_network_project.common.entities.dtos.PostData;
 import com.example.social_network_project.common.entities.dtos.PostRequest;
-import com.example.social_network_project.common.entities.dtos.UserRequest;
 import com.example.social_network_project.repository.IPostRepository;
 import com.example.social_network_project.repository.IUserRepository;
 import com.example.social_network_project.services.Interface.IAuthService;
@@ -29,13 +29,24 @@ public class PostService implements IPostService {
 
 
     @Override
-    public PostModel savePost(UserRequest userRequest, String content) {
+    public PostData savePost(UserModel userRequest, String content) {
         PostModel postModel = new PostModel();
         Optional<UserModel> userOpt = userRepository.findByEmail(userRequest.getEmail());
         UserModel userModel = userOpt.get();
         postModel.setUserModel(userModel);
         postModel.setContent(content);
-        return postRepository.save(postModel);
+        postRepository.save(postModel);
+
+        PostData postData = new PostData();
+        postData.setPostId(postModel.getPostId());
+        postData.setUserId(userModel.getUserId());
+        postData.setNameUser(userModel.getName());
+        postData.setEmailUser(userModel.getEmail());
+        postData.setContent(postModel.getContent());
+        postData.setRole(userModel.getRole().name());
+        postData.setCreatedAt(postModel.getCreatedAt());
+
+        return postData;
     }
 
     @Override
